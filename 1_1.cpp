@@ -29,7 +29,9 @@
 
 #include <iostream>
 #include <cstring>
-#define prin_t 0
+#define prin_t 0 // 1-конструктор или диструктор
+                 // 2-иные функции
+                 // 3- 1 и 2
 using namespace std;
 
 class bank_account
@@ -52,11 +54,11 @@ public:
         date_of_creation_unix_time = 0;
         money = 0;
         id = 0;
-        if (prin_t)
+        if ((prin_t == 1) or (prin_t == 3))
             cout << "bank_account()" << endl;
     };
 
-    bank_account(char *a_h, unsigned int d_o_c_u_t, long long m)
+    bank_account(const char *a_h, unsigned int d_o_c_u_t, long long m)
     {
         prev = NULL;
         next = NULL;
@@ -65,7 +67,7 @@ public:
         date_of_creation_unix_time = d_o_c_u_t;
         money = m;
         id = 0;
-        if (prin_t)
+        if ((prin_t == 1) or (prin_t == 3))
             cout << "bank_account(char *a_h, unsigned int d_o_c_u_t, long long m)" << endl;
     };
 
@@ -78,7 +80,7 @@ public:
         date_of_creation_unix_time = b_a.date_of_creation_unix_time;
         money = b_a.money;
         id = b_a.id;
-        if (prin_t)
+        if ((prin_t == 1) or (prin_t == 3))
             cout << "bank_account(bank_account &b_a)" << endl;
     };
 
@@ -86,7 +88,7 @@ public:
     {
         // cout << account_holder << endl;
         delete[] account_holder;
-        if (prin_t)
+        if ((prin_t == 1) or (prin_t == 3))
             cout << "~bank_account()" << endl;
     };
     //--------------------------------------------------------------------------------
@@ -94,22 +96,26 @@ public:
     void set_id(unsigned int a)
     {
         id = a;
+        if ((prin_t == 2) or (prin_t == 3))
+            cout << "void set_id(unsigned int a)" << endl;
     }
     unsigned int get_id()
     {
+        if ((prin_t == 2) or (prin_t == 3))
+            cout << "unsigned int get_id()" << endl;
         return id;
     }
 
     bank_account *get_next()
     {
-        if (prin_t)
+        if ((prin_t == 2) or (prin_t == 3))
             cout << "bank_account get_next()" << endl;
         return next;
     };
 
     bank_account *get_prev()
     {
-        if (prin_t)
+        if ((prin_t == 2) or (prin_t == 3))
             cout << "bank_account get_prev()" << endl;
         return prev;
     };
@@ -117,34 +123,34 @@ public:
     void set_prev(bank_account *p)
     {
         prev = p;
-        if (prin_t)
+        if ((prin_t == 2) or (prin_t == 3))
             cout << "void set_prev(bank_account *p)" << endl;
     };
 
     void set_next(bank_account *p)
     {
         next = p;
-        if (prin_t)
+        if ((prin_t == 2) or (prin_t == 3))
             cout << "void set_next(bank_account *p)" << endl;
     };
 
-    char *get_account_holder()
+    const char *get_account_holder()
     {
-        if (prin_t)
+        if ((prin_t == 2) or (prin_t == 3))
             cout << "char *get_account_holder()" << endl;
         return account_holder;
     };
 
     unsigned int get_date_of_creation_unix_time()
     {
-        if (prin_t)
+        if ((prin_t == 2) or (prin_t == 3))
             cout << "unsigned int get_date_of_creation_unix_time()" << endl;
         return date_of_creation_unix_time;
     };
 
     long long get_money()
     {
-        if (prin_t)
+        if ((prin_t == 2) or (prin_t == 3))
             cout << "long long get_money()" << endl;
         return money;
     }
@@ -165,7 +171,7 @@ public:
         head = NULL;
         tail = NULL;
         list_size = 0;
-        if (prin_t)
+        if ((prin_t == 1) or (prin_t == 3))
             cout << "info_list()" << endl;
     };
 
@@ -181,18 +187,22 @@ public:
             delete head;
             head = tmp;
         }
-        if (prin_t)
+        if ((prin_t == 1) or (prin_t == 3))
             cout << "~info_list()" << endl;
     };
     //--------------------------------------------------------------------------------
     void list_size_add()
     {
         list_size++;
+        if ((prin_t == 2) or (prin_t == 3))
+            cout << "void list_size_add()" << endl;
     };
 
     void list_size_sub()
     {
         list_size--;
+        if ((prin_t == 2) or (prin_t == 3))
+            cout << "void list_size_sub()" << endl;
     };
 
     void push_front(bank_account b_a)
@@ -218,7 +228,7 @@ public:
             head = tmp;
             list_size_add();
         }
-        if (prin_t)
+        if ((prin_t == 2) or (prin_t == 3))
             cout << "void push_front(bank_account b_a)" << endl;
     };
 
@@ -246,7 +256,7 @@ public:
             tail = tmp;
             list_size_add();
         }
-        if (prin_t)
+        if ((prin_t == 2) or (prin_t == 3))
             cout << "void push_back(bank_account b_a)" << endl;
     };
 
@@ -255,6 +265,8 @@ public:
         if (p > list_size)
         {
             cout << "ERROR: p > list_size <=> " << p << " > " << list_size << endl;
+            if ((prin_t == 2) or (prin_t == 3))
+                cout << "void insert(unsigned int p, bank_account x)" << endl;
             return;
         }
         unsigned int i = 1;
@@ -272,6 +284,8 @@ public:
         tmp->get_prev()->set_next(tmp1);
         tmp->set_prev(tmp1);
         list_size_add();
+        if ((prin_t == 2) or (prin_t == 3))
+            cout << "void insert(unsigned int p, bank_account x)" << endl;
     };
 
     void erase(unsigned int p) // НУМЕРАЦИЯ С 1
@@ -279,6 +293,8 @@ public:
         if ((p > list_size) or (p == 0))
         {
             cout << "ERROR: p > list_size <=> " << p << " > " << list_size << endl;
+            if ((prin_t == 2) or (prin_t == 3))
+                cout << "void erase(unsigned int p)" << endl;
             return;
         }
         unsigned int i = 1;
@@ -302,6 +318,8 @@ public:
             cout << "------------------------------------------------------------------------------" << endl;
             delete tmp;
             list_size_sub();
+            if ((prin_t == 2) or (prin_t == 3))
+                cout << "void erase(unsigned int p)" << endl;
             return;
         }
         if (tmp->get_prev())
@@ -332,6 +350,8 @@ public:
         cout << "------------------------------------------------------------------------------" << endl;
         delete tmp;
         list_size_sub();
+        if ((prin_t == 2) or (prin_t == 3))
+            cout << "void erase(unsigned int p)" << endl;
     };
 
     void front()
@@ -344,7 +364,7 @@ public:
         {
             cout << "head = NULL" << endl;
         }
-        if (prin_t)
+        if ((prin_t == 2) or (prin_t == 3))
             cout << "void front()" << endl;
     };
 
@@ -358,14 +378,14 @@ public:
         {
             cout << "tail = NULL" << endl;
         }
-        if (prin_t)
+        if ((prin_t == 2) or (prin_t == 3))
             cout << "void back()" << endl;
     };
 
     void size()
     {
         cout << list_size << endl;
-        if (prin_t)
+        if ((prin_t == 2) or (prin_t == 3))
             cout << "void size()" << endl;
     };
 
@@ -375,7 +395,7 @@ public:
             cout << "The list is not empty" << endl;
         else
             cout << "The list is empty" << endl;
-        if (prin_t)
+        if ((prin_t == 2) or (prin_t == 3))
             cout << "void empty()" << endl;
     };
 
@@ -399,7 +419,7 @@ public:
         }
         else
             cout << "The list is empty" << endl;
-        if (prin_t)
+        if ((prin_t == 2) or (prin_t == 3))
             cout << "void print()" << endl;
     };
 
@@ -422,6 +442,8 @@ public:
                 cout << "------------------------------------------------------------------------------" << endl;
                 delete tmp;
                 list_size_sub();
+                if ((prin_t == 2) or (prin_t == 3))
+                    cout << "void pop_front()" << endl;
                 return;
             }
             head = head->get_next();
@@ -441,7 +463,7 @@ public:
         {
             cout << "The list is empty" << endl;
         }
-        if (prin_t)
+        if ((prin_t == 2) or (prin_t == 3))
             cout << "void pop_front()" << endl;
     };
 
@@ -464,6 +486,8 @@ public:
                 cout << "------------------------------------------------------------------------------" << endl;
                 delete tmp;
                 list_size_sub();
+                if ((prin_t == 2) or (prin_t == 3))
+                    cout << "void pop_back()" << endl;
                 return;
             }
             tail = tail->get_prev();
@@ -483,7 +507,7 @@ public:
         {
             cout << "The list is empty" << endl;
         }
-        if (prin_t)
+        if ((prin_t == 2) or (prin_t == 3))
             cout << "void pop_front()" << endl;
     };
 };
@@ -492,19 +516,42 @@ unsigned int info_list::id_counter = 1;
 
 int main()
 {
-    const char *tmp_str = "hallo\0";
-    char *str = new char[6];
-    strcpy(str, tmp_str);
-    bank_account acc1(str, 1, 1234);
-    bank_account acc2(str, 2, 1234);
+    const char *tmp_str1 = "hallo1\0";
+    const char *tmp_str2 = "hallo2\0";
+    const char *tmp_str3 = "hallo3\0";
+    const char *tmp_str4 = "hallo4\0";
+
+    bank_account acc1(tmp_str1, 10000, 12345346);
+    bank_account acc2(tmp_str2, 20000, -1234);
+    bank_account acc3(tmp_str3, 234567, 1234432);
+    bank_account acc4(tmp_str4, 265432, -34);
+
     info_list l1;
+    info_list l2;
+    info_list l3;
+    info_list l4;
+
     l1.push_front(acc1);
-    l1.push_front(acc2);
+    l1.push_back(acc2);
+    l1.push_front(acc3);
+    l1.push_back(acc4);
+    l1.empty();
     l1.print();
-    l1.erase(1);
+    l1.erase(2);
     l1.print();
     l1.pop_front();
     l1.print();
+    l1.pop_back();
+    l1.print();
+    l1.empty();
+    l1.pop_back();
+    l1.empty();
+    l1.print();
+
+    // l1.erase(1);
+    // l1.print();
+    // l1.pop_front();
+    // l1.print();
     // l1.empty();
     // l1.size();
     // l1.push_back(acc1);
@@ -532,6 +579,5 @@ int main()
     // l1.insert(3, acc2);
     // l1.print();
     // l1.size();
-    delete[] str;
     return 0;
 }
