@@ -17,7 +17,7 @@ public:
         this->re += a.re;
         this->im += a.im;
     }
-    void sub(complex_num a)
+    void sub(complex_num & a)
     {
         this->re -= a.re;
         this->im -= a.im;
@@ -60,6 +60,7 @@ int main()
     cout << com1.get_re() << " i" << com1.get_im() << endl;
     cout << com4.get_re() << " i" << com4.get_im() << endl;
     cout << com1.compare(com4) << endl<< endl;
+    
     com2.multiply(com3);
     cout << com2.get_re() << " i" << com2.get_im() << endl;
 }
