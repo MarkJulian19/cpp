@@ -29,52 +29,47 @@
 
 #include <iostream>
 #include <cstring>
-#define prin_t 0 // 1-конструктор или диструктор
+#define prin_t 3 // 1-конструктор или диструктор
                  // 2-иные функции
                  // 3- 1 и 2
 using namespace std;
 
 class bank_account
 {
-    // bank_account *prev, *next;
-    // int account_number;
     char *account_holder;
     unsigned int date_of_creation_unix_time;
     long long money;
     unsigned int id;
+    static unsigned int id_counter;
 
 public:
     //--------------------------------------------------------------------------------
     // конструкторы, деструкторы
     bank_account()
     {
-        // prev = NULL;
-        // next = NULL;
         account_holder = NULL;
         date_of_creation_unix_time = 0;
         money = 0;
-        id = 0;
+        id = id_counter;
+        id_counter++;
         if ((prin_t == 1) or (prin_t == 3))
             cout << "bank_account()" << endl;
     };
 
     bank_account(const char *a_h, unsigned int d_o_c_u_t, long long m)
     {
-        // prev = NULL;
-        // next = NULL;
         account_holder = new char[strlen(a_h) + 1];
         strcpy(account_holder, a_h);
         date_of_creation_unix_time = d_o_c_u_t;
         money = m;
-        id = 0;
+        id = id_counter;
+        id_counter++;
         if ((prin_t == 1) or (prin_t == 3))
             cout << "bank_account(char *a_h, unsigned int d_o_c_u_t, long long m)" << endl;
     };
 
     bank_account(bank_account &b_a)
     {
-        // prev = b_a.prev;
-        // next = b_a.next;
         account_holder = new char[strlen(b_a.account_holder) + 1];
         strcpy(account_holder, b_a.account_holder);
         date_of_creation_unix_time = b_a.date_of_creation_unix_time;
@@ -86,53 +81,18 @@ public:
 
     ~bank_account()
     {
-        // cout << account_holder << endl;
         delete[] account_holder;
         if ((prin_t == 1) or (prin_t == 3))
             cout << "~bank_account()" << endl;
     };
     //--------------------------------------------------------------------------------
 
-    void set_id(unsigned int a)
-    {
-        id = a;
-        if ((prin_t == 2) or (prin_t == 3))
-            cout << "void set_id(unsigned int a)" << endl;
-    }
     unsigned int get_id()
     {
         if ((prin_t == 2) or (prin_t == 3))
             cout << "unsigned int get_id()" << endl;
         return id;
     }
-
-    // bank_account *get_next()
-    // {
-    //     if ((prin_t == 2) or (prin_t == 3))
-    //         cout << "bank_account get_next()" << endl;
-    //     return next;
-    // };
-
-    // bank_account *get_prev()
-    // {
-    //     if ((prin_t == 2) or (prin_t == 3))
-    //         cout << "bank_account get_prev()" << endl;
-    //     return prev;
-    // };
-
-    // void set_prev(bank_account *p)
-    // {
-    //     prev = p;
-    //     if ((prin_t == 2) or (prin_t == 3))
-    //         cout << "void set_prev(bank_account *p)" << endl;
-    // };
-
-    // void set_next(bank_account *p)
-    // {
-    //     next = p;
-    //     if ((prin_t == 2) or (prin_t == 3))
-    //         cout << "void set_next(bank_account *p)" << endl;
-    // };
 
     const char *get_account_holder()
     {
@@ -154,18 +114,45 @@ public:
             cout << "long long get_money()" << endl;
         return money;
     }
+
+    void operator=(bank_account &b_a)
+    {
+        account_holder = new char[strlen(b_a.account_holder) + 1];
+        strcpy(account_holder, b_a.account_holder);
+        date_of_creation_unix_time = b_a.date_of_creation_unix_time;
+        money = b_a.money;
+        id = b_a.id;
+        if ((prin_t == 1) or (prin_t == 3))
+            cout << "void operator=(bank_account &b_a)" << endl;
+    }
+
+    void print_inf()
+    {
+        cout << "id: " << id << endl;
+        cout << "account_holder: " << account_holder << endl;
+        cout << "date_of_creation_unix_time: " << date_of_creation_unix_time << endl;
+        cout << "money: " << money << endl;
+        cout << endl;
+        if ((prin_t == 2) or (prin_t == 3))
+            cout << "void print_inf()" << endl;
+        return;
+    }
 };
-template<typename Type>
+
+unsigned int bank_account::id_counter = 1;
+
+template <typename Type>
 class info_list
 {
-    struct Node{
+    struct Node
+    {
         Node *next;
         Node *prev;
         Type inf;
     };
-    Node  *head, *tail;
+    Node *head, *tail;
     unsigned int list_size;
-    static unsigned int id_counter;
+    // static unsigned int id_counter;
 
 public:
     //--------------------------------------------------------------------------------
@@ -175,8 +162,6 @@ public:
     {
         head = NULL;
         tail = NULL;
-        Node->next = NULL;
-        Node->prev=NULL;
         list_size = 0;
         if ((prin_t == 1) or (prin_t == 3))
             cout << "info_list()" << endl;
@@ -187,9 +172,6 @@ public:
         Node *tmp;
         while (head != NULL)
         {
-            // tmp = tmp->get_next();
-            // delete[] head;
-            // head = tmp;
             tmp = head->next;
             delete head;
             head = tmp;
@@ -198,101 +180,82 @@ public:
             cout << "~info_list()" << endl;
     };
     //--------------------------------------------------------------------------------
-    void list_size_add()
-    {
-        list_size++;
-        if ((prin_t == 2) or (prin_t == 3))
-            cout << "void list_size_add()" << endl;
-    };
 
-    void list_size_sub()
-    {
-        list_size--;
-        if ((prin_t == 2) or (prin_t == 3))
-            cout << "void list_size_sub()" << endl;
-    };
-
-    void push_front(bank_account b_a)
+    void push_front(Type b_a)
     {
         if (head == NULL)
         {
-            head = new bank_account(b_a);
-            head->set_next(NULL);
-            head->set_prev(NULL);
-            head->set_id(id_counter);
-            id_counter++;
+            head = new Node;
+            head->next = NULL;
+            head->prev = NULL;
+            head->inf = b_a;
             tail = head;
-            list_size_add();
+            list_size++;
         }
         else
         {
-            bank_account *tmp = new bank_account(b_a);
-            tmp->set_prev(NULL);
-            tmp->set_next(head);
-            head->set_prev(tmp);
-            tmp->set_id(id_counter);
-            id_counter++;
+            Node *tmp = new Node;
+            tmp->inf = b_a;
+            tmp->prev = NULL;
+            tmp->next = head;
+            head->prev = tmp;
             head = tmp;
-            list_size_add();
+            list_size++;
         }
         if ((prin_t == 2) or (prin_t == 3))
-            cout << "void push_front(bank_account b_a)" << endl;
+            cout << "void push_front(Type b_a)" << endl;
     };
 
-    void push_back(bank_account b_a)
+    void push_back(Type b_a)
     {
         if (head == NULL)
         {
-            head = new bank_account(b_a);
-            head->set_next(NULL);
-            head->set_prev(NULL);
-            head->set_id(id_counter);
-            id_counter++;
+            head = new Node;
+            head->next = NULL;
+            head->prev = NULL;
+            head->inf = b_a;
             tail = head;
-            list_size_add();
+            list_size++;
         }
         else
         {
-            // cout << "--------------------" << endl;
-            bank_account *tmp = new bank_account(b_a);
-            tmp->set_prev(tail);
-            tmp->set_next(NULL);
-            tail->set_next(tmp);
-            tmp->set_id(id_counter);
-            id_counter++;
+            Node *tmp = new Node;
+            tmp->inf = b_a;
+            tmp->next = NULL;
+            tmp->prev = tail;
+            tail->next = tmp;
             tail = tmp;
-            list_size_add();
+            list_size++;
         }
         if ((prin_t == 2) or (prin_t == 3))
-            cout << "void push_back(bank_account b_a)" << endl;
+            cout << "void push_back(Type b_a)" << endl;
     };
 
-    void insert(unsigned int p, bank_account x) // НУМЕРАЦИЯ С 1
+    void insert(unsigned int p, Type b_a) // НУМЕРАЦИЯ С 1
     {
         if (p > list_size)
         {
             cout << "ERROR: p > list_size <=> " << p << " > " << list_size << endl;
             if ((prin_t == 2) or (prin_t == 3))
-                cout << "void insert(unsigned int p, bank_account x)" << endl;
+                cout << "void insert(unsigned int p, Type b_a) " << endl;
             return;
         }
         unsigned int i = 1;
-        bank_account *tmp = head;
+        Node *tmp = head;
         while (i < p)
         {
-            tmp = tmp->get_next();
+            tmp = tmp->next;
             i++;
         }
-        bank_account *tmp1 = new bank_account(x);
-        tmp1->set_next(tmp);
-        tmp1->set_prev(tmp->get_prev());
-        tmp1->set_id(id_counter);
-        id_counter++;
-        tmp->get_prev()->set_next(tmp1);
-        tmp->set_prev(tmp1);
-        list_size_add();
+        Node *tmp1 = new Node;
+        tmp1->next = tmp;
+        tmp1->prev = tmp->prev;
+        tmp1->inf = b_a;
+        tmp->prev->next = tmp1;
+        tmp->prev = tmp1;
+        list_size++;
         if ((prin_t == 2) or (prin_t == 3))
-            cout << "void insert(unsigned int p, bank_account x)" << endl;
+            cout << "void insert(unsigned int p, Type b_a) " << endl;
     };
 
     void erase(unsigned int p) // НУМЕРАЦИЯ С 1
@@ -305,58 +268,50 @@ public:
             return;
         }
         unsigned int i = 1;
-        bank_account *tmp = head;
+        Node *tmp = head;
         while (i < p)
         {
-            tmp = tmp->get_next();
+            tmp = tmp->next;
             i++;
         }
-        if ((tmp->get_next() == NULL) and (tmp->get_prev() == NULL))
+        if ((tmp->next == NULL) and (tmp->prev == NULL))
         {
             head = NULL;
             tail = NULL;
             cout << "Data of the deleted account:" << endl;
             cout << "------------------------------------------------------------------------------" << endl;
-            cout << "id: " << tmp->get_id() << endl;
-            cout << "account_holder: " << tmp->get_account_holder() << endl;
-            cout << "date_of_creation_unix_time: " << tmp->get_date_of_creation_unix_time() << endl;
-            cout << "money: " << tmp->get_money() << endl;
-            cout << endl;
+            tmp->inf.print_inf();
             cout << "------------------------------------------------------------------------------" << endl;
             delete tmp;
-            list_size_sub();
+            list_size--;
             if ((prin_t == 2) or (prin_t == 3))
                 cout << "void erase(unsigned int p)" << endl;
             return;
         }
-        if (tmp->get_prev())
+        if (tmp->prev)
         {
-            tmp->get_prev()->set_next(tmp->get_next());
+            tmp->prev->next = tmp->next;
         }
         else
         {
-            tmp->get_next()->set_prev(NULL);
-            head = tmp->get_next();
+            tmp->next->prev = NULL;
+            head = tmp->next;
         }
-        if (tmp->get_next())
+        if (tmp->next)
         {
-            tmp->get_next()->set_prev(tmp->get_prev());
+            tmp->next->prev = tmp->prev;
         }
         else
         {
-            tmp->get_prev()->set_next(NULL);
-            tail = tmp->get_prev();
+            tmp->prev->next = NULL;
+            tail = tmp->prev;
         }
         cout << "Data of the deleted account:" << endl;
         cout << "------------------------------------------------------------------------------" << endl;
-        cout << "id: " << tmp->get_id() << endl;
-        cout << "account_holder: " << tmp->get_account_holder() << endl;
-        cout << "date_of_creation_unix_time: " << tmp->get_date_of_creation_unix_time() << endl;
-        cout << "money: " << tmp->get_money() << endl;
-        cout << endl;
+        tmp->inf.print_inf();
         cout << "------------------------------------------------------------------------------" << endl;
         delete tmp;
-        list_size_sub();
+        list_size--;
         if ((prin_t == 2) or (prin_t == 3))
             cout << "void erase(unsigned int p)" << endl;
     };
@@ -365,7 +320,7 @@ public:
     {
         if (head != NULL)
         {
-            cout << head->get_account_holder() << endl;
+            head->inf.print_inf();
         }
         else
         {
@@ -379,7 +334,7 @@ public:
     {
         if (tail != NULL)
         {
-            cout << tail->get_account_holder() << endl;
+            tail->inf.print_inf();
         }
         else
         {
@@ -410,17 +365,13 @@ public:
     {
         if (list_size)
         {
-            bank_account *tmp = head;
-            cout << "\ninformation about all clients of this database:" << endl;
+            Node *tmp = head;
+            cout << "\nInformation about all clients of this database:" << endl;
             cout << "------------------------------------------------------------------------------" << endl;
             while (tmp)
             {
-                cout << "id: " << tmp->get_id() << endl;
-                cout << "account_holder: " << tmp->get_account_holder() << endl;
-                cout << "date_of_creation_unix_time: " << tmp->get_date_of_creation_unix_time() << endl;
-                cout << "money: " << tmp->get_money() << endl;
-                cout << endl;
-                tmp = tmp->get_next();
+                tmp->inf.print_inf();
+                tmp = tmp->next;
             }
             cout << "------------------------------------------------------------------------------" << endl;
         }
@@ -434,37 +385,29 @@ public:
     {
         if (head)
         {
-            bank_account *tmp = head;
-            if ((tmp->get_next() == NULL) and (tmp->get_prev() == NULL))
+            Node *tmp = head;
+            if ((tmp->next == NULL) and (tmp->prev == NULL))
             {
                 head = NULL;
                 tail = NULL;
                 cout << "Data of the deleted account:" << endl;
                 cout << "------------------------------------------------------------------------------" << endl;
-                cout << "id: " << tmp->get_id() << endl;
-                cout << "account_holder: " << tmp->get_account_holder() << endl;
-                cout << "date_of_creation_unix_time: " << tmp->get_date_of_creation_unix_time() << endl;
-                cout << "money: " << tmp->get_money() << endl;
-                cout << endl;
+                tmp->inf.print_inf();
                 cout << "------------------------------------------------------------------------------" << endl;
                 delete tmp;
-                list_size_sub();
+                list_size--;
                 if ((prin_t == 2) or (prin_t == 3))
                     cout << "void pop_front()" << endl;
                 return;
             }
-            head = head->get_next();
-            head->set_prev(NULL);
+            head = head->next;
+            head->prev = NULL;
             cout << "Data of the deleted account:" << endl;
             cout << "------------------------------------------------------------------------------" << endl;
-            cout << "id: " << tmp->get_id() << endl;
-            cout << "account_holder: " << tmp->get_account_holder() << endl;
-            cout << "date_of_creation_unix_time: " << tmp->get_date_of_creation_unix_time() << endl;
-            cout << "money: " << tmp->get_money() << endl;
-            cout << endl;
+            tmp->inf.print_inf();
             cout << "------------------------------------------------------------------------------" << endl;
             delete tmp;
-            list_size_sub();
+            list_size--;
         }
         else
         {
@@ -478,37 +421,29 @@ public:
     {
         if (tail)
         {
-            bank_account *tmp = tail;
-            if ((tmp->get_next() == NULL) and (tmp->get_prev() == NULL))
+            Node *tmp = tail;
+            if ((tmp->next == NULL) and (tmp->prev == NULL))
             {
                 head = NULL;
                 tail = NULL;
                 cout << "Data of the deleted account:" << endl;
                 cout << "------------------------------------------------------------------------------" << endl;
-                cout << "id: " << tmp->get_id() << endl;
-                cout << "account_holder: " << tmp->get_account_holder() << endl;
-                cout << "date_of_creation_unix_time: " << tmp->get_date_of_creation_unix_time() << endl;
-                cout << "money: " << tmp->get_money() << endl;
-                cout << endl;
+                tmp->inf.print_inf();
                 cout << "------------------------------------------------------------------------------" << endl;
                 delete tmp;
-                list_size_sub();
+                list_size--;
                 if ((prin_t == 2) or (prin_t == 3))
                     cout << "void pop_back()" << endl;
                 return;
             }
-            tail = tail->get_prev();
-            tail->set_next(NULL);
+            tail = tail->prev;
+            tail->next = NULL;
             cout << "Data of the deleted account:" << endl;
             cout << "------------------------------------------------------------------------------" << endl;
-            cout << "id: " << tmp->get_id() << endl;
-            cout << "account_holder: " << tmp->get_account_holder() << endl;
-            cout << "date_of_creation_unix_time: " << tmp->get_date_of_creation_unix_time() << endl;
-            cout << "money: " << tmp->get_money() << endl;
-            cout << endl;
+            tmp->inf.print_inf();
             cout << "------------------------------------------------------------------------------" << endl;
             delete tmp;
-            list_size_sub();
+            list_size--;
         }
         else
         {
@@ -518,8 +453,6 @@ public:
             cout << "void pop_front()" << endl;
     };
 };
-
-unsigned int info_list::id_counter = 1;
 
 int main()
 {
@@ -532,59 +465,37 @@ int main()
     bank_account acc2(tmp_str2, 20000, -1234);
     bank_account acc3(tmp_str3, 234567, 1234432);
     bank_account acc4(tmp_str4, 265432, -34);
+    cout << acc4.get_id() << endl;
+    info_list<bank_account> a1;
 
-    info_list l1;
-    info_list l2;
-    info_list l3;
-    info_list l4;
+    a1.print();
 
-    l1.push_front(acc1);
-    l1.push_back(acc2);
-    l1.push_front(acc3);
-    l1.push_back(acc4);
-    l1.empty();
-    l1.print();
-    l1.erase(2);
-    l1.print();
-    l1.pop_front();
-    l1.print();
-    l1.pop_back();
-    l1.print();
-    l1.empty();
-    l1.pop_back();
-    l1.empty();
-    l1.print();
+    a1.push_front(acc3);
+    a1.push_front(acc4);
 
-    // l1.erase(1);
-    // l1.print();
-    // l1.pop_front();
-    // l1.print();
-    // l1.empty();
-    // l1.size();
-    // l1.push_back(acc1);
-    // l1.empty();
-    // l1.size();
-    // l1.push_back(acc2);
-    // l1.empty();
-    // l1.size();
-    // l1.push_back(acc1);
-    // l1.empty();
-    // l1.size();
-    // l1.push_back(acc2);
-    // l1.empty();
-    // l1.size();
-    // l1.front();
-    // l1.back();
-    // l1.print();
-    // info_list l2;
-    // l2.push_back(acc1);
-    // l2.print();
-    // l1.pop_front();
-    // l1.print();
-    // l1.pop_back();
-    // l1.print();
-    // l1.insert(3, acc2);
-    // l1.print();
-    // l1.size();
+    a1.print();
+
+    a1.push_back(acc1);
+
+    a1.print();
+
+    a1.front();
+
+    a1.back();
+
+    a1.size();
+
+    a1.empty();
+
+    a1.insert(2, acc2);
+
+    a1.print();
+
+    a1.erase(2);
+    a1.print();
+    a1.pop_back();
+    a1.print();
+    a1.pop_front();
+    a1.print();
     return 0;
 }
