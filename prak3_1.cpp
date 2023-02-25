@@ -56,10 +56,12 @@ public:
     {
         return Arr(a, -1);
     }
+
     int &operator[](int i)
     {
         return arr[i];
     }
+
     friend Arr operator|(const Arr &obj1, const Arr &obj2)
     {
         Arr tmp(max(obj1.size, obj2.size));
@@ -69,6 +71,15 @@ public:
             tmp.arr[i] += obj2.arr[i];
         return tmp;
     }
+
+    Arr &operator|=(int x)
+    {
+        for (int i = 0; i < size; i++)
+        {
+            arr[i] += x;
+        }
+        return *this;
+    }
 };
 
 int main()
@@ -76,25 +87,11 @@ int main()
     Arr a1(15), a2(20, 5), a3(30, 3);
     const Arr a4(5);
     cout << a1 << a2 << a3 << a4 << endl;
-    a1 = a2 = a2 | 2; // объект a2 здесь не меняется
-    cout << a2 << endl;
-    cout << a1 << endl;
-    a1 = (-a1);
-    cout << a1 << endl;
-
-    // a2 |= 1;     // а здесь меняется
-    cout << a3 << endl;
-    cout << a2 << endl;
-    cout << a4 << endl;
+    a2 = a2 | 2; // объект a2 здесь не меняется
+    a2 |= 1;     // а здесь меняется
     a3 = (-a2) | (-a4);
-    cout << a3 << endl;
     a3[5] = 10;
-    cout << a3 << endl;
-    cout << a1 << endl;
-    cout << a4 << endl;
-    cout << a3 << endl;
     a1 = a4 | a3;
-    cout << a1 << endl;
-    // cout << a1 << a2 << a3 << a4;
+    cout << a1 << a2 << a3 << a4 << endl;
     return 0;
 }
