@@ -16,13 +16,13 @@ public:
         for (int i = 0; i < size; arr[i++] = date)
             ;
     }
-    Arr(const Arr &a)
+    Arr(const Arr &a, int mult = 1)
     {
         size = a.size;
         arr = new int[size];
         for (int i = 0; i < size; i++)
         {
-            arr[i] = a.arr[i];
+            arr[i] = a.arr[i] * mult;
         };
     }
     ~Arr() { delete[] arr; }
@@ -38,24 +38,39 @@ public:
     {
         Arr tmp(a);
         for (int i = 0; i < a.size; i++)
-        {
             tmp.arr[i] += b;
-        }
-        // cout << 2;
         return tmp;
     };
-    Arr operator=(Arr right)
+
+    Arr &operator=(Arr right)
     {
         size = right.size;
         delete[] arr;
         arr = new int[size];
         for (int i = 0; i < right.size; i++)
-        {
             arr[i] = right.arr[i];
-        }
         return *this;
     }
+
+    friend Arr operator-(const Arr &a)
+    {
+        return Arr(a, -1);
+    }
+    int &operator[](int i)
+    {
+        return arr[i];
+    }
+    friend Arr operator|(const Arr &obj1, const Arr &obj2)
+    {
+        Arr tmp(max(obj1.size, obj2.size));
+        for (int i = 0; i < obj1.size; i++)
+            tmp.arr[i] += obj1.arr[i];
+        for (int i = 0; i < obj2.size; i++)
+            tmp.arr[i] += obj2.arr[i];
+        return tmp;
+    }
 };
+
 int main()
 {
     Arr a1(15), a2(20, 5), a3(30, 3);
@@ -63,11 +78,23 @@ int main()
     cout << a1 << a2 << a3 << a4 << endl;
     a1 = a2 = a2 | 2; // объект a2 здесь не меняется
     cout << a2 << endl;
-    cout << a1;
+    cout << a1 << endl;
+    a1 = (-a1);
+    cout << a1 << endl;
+
     // a2 |= 1;     // а здесь меняется
-    // a3 = (-a2) | (-a4);
-    // a3[5] = 10;
-    // a1 = a4 | a3;
+    cout << a3 << endl;
+    cout << a2 << endl;
+    cout << a4 << endl;
+    a3 = (-a2) | (-a4);
+    cout << a3 << endl;
+    a3[5] = 10;
+    cout << a3 << endl;
+    cout << a1 << endl;
+    cout << a4 << endl;
+    cout << a3 << endl;
+    a1 = a4 | a3;
+    cout << a1 << endl;
     // cout << a1 << a2 << a3 << a4;
-    // return 0;
+    return 0;
 }
