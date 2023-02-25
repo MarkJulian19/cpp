@@ -29,7 +29,7 @@
 
 #include <iostream>
 #include <cstring>
-#define prin_t 3 // 1-конструктор или диструктор
+#define prin_t 0 // 1-конструктор или диструктор
                  // 2-иные функции
                  // 3- 1 и 2
 using namespace std;
