@@ -44,7 +44,7 @@ public:
         // cout << 2;
         return tmp;
     };
-    void operator=(Arr right)
+    Arr operator=(Arr right)
     {
         size = right.size;
         delete[] arr;
@@ -53,7 +53,7 @@ public:
         {
             arr[i] = right.arr[i];
         }
-        
+        return *this;
     }
 };
 int main()
@@ -61,8 +61,9 @@ int main()
     Arr a1(15), a2(20, 5), a3(30, 3);
     const Arr a4(5);
     cout << a1 << a2 << a3 << a4 << endl;
-    a2 = a2 | 2; // объект a2 здесь не меняется
-    cout << a2;
+    a1 = a2 = a2 | 2; // объект a2 здесь не меняется
+    cout << a2 << endl;
+    cout << a1;
     // a2 |= 1;     // а здесь меняется
     // a3 = (-a2) | (-a4);
     // a3[5] = 10;
