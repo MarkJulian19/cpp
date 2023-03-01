@@ -115,8 +115,11 @@ public:
         return money;
     }
 
-    void operator=(bank_account &b_a)
+    bank_account &operator=(bank_account &b_a)
     {
+        if (this == &b_a)
+            return *this;
+        delete[] this->account_holder;
         account_holder = new char[strlen(b_a.account_holder) + 1];
         strcpy(account_holder, b_a.account_holder);
         date_of_creation_unix_time = b_a.date_of_creation_unix_time;
@@ -124,6 +127,7 @@ public:
         id = b_a.id;
         if ((prin_t == 1) or (prin_t == 3))
             cout << "void operator=(bank_account &b_a)" << endl;
+        return *this;
     }
 
     void print_inf()
@@ -497,5 +501,7 @@ int main()
     a1.print();
     a1.pop_front();
     a1.print();
+    acc1 = acc1 = acc2;
+    acc1.print_inf();
     return 0;
 }
