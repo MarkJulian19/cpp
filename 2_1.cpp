@@ -117,5 +117,10 @@ int main()
     cout << a1.size() << endl;
     a1.empty();
     a1.front();
+
+    info_list<bank_account> a2;
+    a2.push_front(acc2);
+    a2.front();
+    a2.print();
     return 0;
 }
