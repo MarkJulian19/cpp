@@ -42,9 +42,7 @@ public:
     //--------------------------------------------------------------------------------
     void back(Type b)
     {
-        cout << info_list<Type>::size() << endl;
-        cout << max_size << endl;
-        if ((info_list<Type>::size()) < max_size )
+        if (info_list<Type>::size() < max_size )
         {
             info_list<Type>::push_back(b);
         }
@@ -69,19 +67,19 @@ public:
     {
         info_list<Type>::empty();
     };
-    void size()
+    unsigned int size()
     {
-        info_list<Type>::size();
+        return info_list<Type>::size();
     }
     void full()
     {
-        if (max_size == this->size())
+        if (max_size == info_list<Type>::size())
         {
             cout << "my_queue is full" << endl;
         }
         else
         {
-            cout << "my_queue is not full, current number of elements: " << this->list_size << endl;
+            cout << "my_queue is not full, current number of elements: " << info_list<Type>::size() << endl;
         }
     }
 };
@@ -98,12 +96,26 @@ int main()
     bank_account acc3(tmp_str3, 234567, 1234432);
     bank_account acc4(tmp_str4, 265432, -34);
     my_queue<bank_account> a1;
+    a1.empty();
     a1.back(acc1);
     a1.back(acc2);
     a1.back(acc3);
     a1.back(acc4);
+    a1.back(acc4);
+    a1.back(acc4);
+    a1.back(acc4);
+    a1.back(acc4);
+    a1.back(acc4);
+    a1.back(acc4);
+    a1.back(acc4);
+    a1.full();
     a1.print();
     a1.pop();
+    a1.full();
     a1.print();
+    a1.pop();
+    cout << a1.size() << endl;
+    a1.empty();
+    a1.front();
     return 0;
 }
