@@ -29,7 +29,7 @@
 
 #include <iostream>
 #include <cstring>
-#define prin_t 0 // 1-конструктор или диструктор
+#define prin_t 1 // 1-конструктор или диструктор
                  // 2-иные функции
                  // 3- 1 и 2
 using namespace std;
@@ -145,7 +145,7 @@ public:
 
 unsigned int bank_account::id_counter = 1;
 
-template <typename Type>
+template <class Type>
 class info_list
 {
     struct Node
@@ -458,50 +458,50 @@ public:
     };
 };
 
-int main()
-{
-    const char *tmp_str1 = "hallo1\0";
-    const char *tmp_str2 = "hallo2\0";
-    const char *tmp_str3 = "hallo3\0";
-    const char *tmp_str4 = "hallo4\0";
+// int main()
+// {
+//     const char *tmp_str1 = "hallo1\0";
+//     const char *tmp_str2 = "hallo2\0";
+//     const char *tmp_str3 = "hallo3\0";
+//     const char *tmp_str4 = "hallo4\0";
 
-    bank_account acc1(tmp_str1, 10000, 12345346);
-    bank_account acc2(tmp_str2, 20000, -1234);
-    bank_account acc3(tmp_str3, 234567, 1234432);
-    bank_account acc4(tmp_str4, 265432, -34);
-    cout << acc4.get_id() << endl;
-    info_list<bank_account> a1;
+//     bank_account acc1(tmp_str1, 10000, 12345346);
+//     bank_account acc2(tmp_str2, 20000, -1234);
+//     bank_account acc3(tmp_str3, 234567, 1234432);
+//     bank_account acc4(tmp_str4, 265432, -34);
+//     cout << acc4.get_id() << endl;
+//     info_list<bank_account> a1;
 
-    a1.print();
+//     a1.print();
 
-    a1.push_front(acc3);
-    a1.push_front(acc4);
+//     a1.push_front(acc3);
+//     a1.push_front(acc4);
 
-    a1.print();
+//     a1.print();
 
-    a1.push_back(acc1);
+//     a1.push_back(acc1);
 
-    a1.print();
+//     a1.print();
 
-    a1.front();
+//     a1.front();
 
-    a1.back();
+//     a1.back();
 
-    a1.size();
+//     a1.size();
 
-    a1.empty();
+//     a1.empty();
 
-    a1.insert(2, acc2);
+//     a1.insert(2, acc2);
 
-    a1.print();
+//     a1.print();
 
-    a1.erase(2);
-    a1.print();
-    a1.pop_back();
-    a1.print();
-    a1.pop_front();
-    a1.print();
-    acc1 = acc1 = acc2;
-    acc1.print_inf();
-    return 0;
-}
+//     a1.erase(2);
+//     a1.print();
+//     a1.pop_back();
+//     a1.print();
+//     a1.pop_front();
+//     a1.print();
+//     acc1 = acc1 = acc2;
+//     acc1.print_inf();
+//     return 0;
+// }
