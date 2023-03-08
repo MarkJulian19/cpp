@@ -5,9 +5,7 @@ class A{
     int a;
     A(int i=0): a(i){}
     public:
-    A(A& tmp){
-        a=tmp.a;
-    }
+
     void print(){
         cout<<a;
     }
