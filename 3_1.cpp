@@ -70,7 +70,8 @@ public:
     void getInf()
     {
         cout << "rad=" << rad;
-    }
+    };
+    ~Ball() {}
 };
 
 class mass_of_shapes
@@ -118,12 +119,12 @@ int main()
     Ball b3(6);
 
     mass_of_shapes mas;
-    mas.push(p1);
-    mas.push(p2);
-    mas.push(p3);
-    mas.push(b1);
-    mas.push(b2);
-    mas.push(b3);
+    mas.push<Parallelepiped>(p1);
+    mas.push<Parallelepiped>(p2);
+    mas.push<Parallelepiped>(p3);
+    mas.push<Ball>(b1);
+    mas.push<Ball>(b2);
+    mas.push<Ball>(b3);
     mas.print_inf_of_shapes();
     return 0;
 }
