@@ -13,16 +13,16 @@ using namespace std;
 class Rev // Переворачивает массив
 {
 public:
-    template <typename Container> 
+    template <typename Container>
     void operator()(Container &obj)
     {
         reverse(obj.begin(), obj.end());
     }
 
-    template <typename Container> 
+    template <typename Container>
     void operator()(Container *arr, int n)
     {
-        for (int i = 0, j = n-1; i < j; i++, j--)
+        for (int i = 0, j = n - 1; i < j; i++, j--)
             swap(arr[i], arr[j]);
     }
 };
@@ -61,13 +61,13 @@ int main()
 
     cout << "list" << endl;
     list<int> L;
-    L={1,2,3,4,5};
+    L = {1, 2, 3, 4, 5};
     print(L);
     fun(L);
     print(L);
 
     cout << "string" << endl;
-    string s="1245";
+    string s = "1245";
     print(s);
     fun(s);
     print(s);
