@@ -125,7 +125,7 @@ public:
     bool st_start = false;
     static bool lex_flag;
     static const char * TW[], * TD[];
-    Scanner(const char * program);
+    Scanner(const char * program); //создание класса сканер, подаем на вход имя файла
     Lex get_lex();
     ~Scanner(){ fclose(fp); }
 };
